@@ -29,6 +29,11 @@ jobs:
 - job: 'Staging'
   pool:
     vmImage: 'Ubuntu-16.04'
+  strategy:
+    matrix:
+      Python36:
+        python.version: '3.6'
+    maxParallel: 4
 
   variables:
   - group: AWS Credentials
@@ -53,6 +58,11 @@ jobs:
 - job: 'Production'
   pool:
     vmImage: 'Ubuntu-16.04'
+  strategy:
+    matrix:
+      Python36:
+        python.version: '3.6'
+    maxParallel: 4
 
   variables:
   - group: AWS Credentials
