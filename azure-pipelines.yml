@@ -2,7 +2,7 @@ trigger:
 - master
 
 jobs:
-- job: 'Testing'
+- job: 'Test'
   pool:
     vmImage: 'Ubuntu-16.04'
   strategy:
@@ -27,6 +27,8 @@ jobs:
     displayName: 'Check (Stage 2)'
 
 - job: 'Staging'
+  dependsOn: 'Test'
+  condition: succeeded('Test')
   pool:
     vmImage: 'Ubuntu-16.04'
   strategy:
@@ -34,9 +36,6 @@ jobs:
       Python36:
         python.version: '3.6'
     maxParallel: 4
-
-  variables:
-  - group: AWS Credentials
 
   steps:
   - task: UsePythonVersion@0
@@ -63,6 +62,8 @@ jobs:
     displayName: 'Test Staging (Stage 5)'
 
 - job: 'Production'
+  dependsOn: 'Staging'
+  condition: succeeded('Staging')
   pool:
     vmImage: 'Ubuntu-16.04'
   strategy:
@@ -70,9 +71,6 @@ jobs:
       Python36:
         python.version: '3.6'
     maxParallel: 4
-
-  variables:
-  - group: AWS Credentials
 
   steps:
   - task: UsePythonVersion@0
