@@ -35,9 +35,6 @@ jobs:
         python.version: '3.6'
     maxParallel: 4
 
-  variables:
-  - group: AWS Credentials
-
   steps:
   - task: UsePythonVersion@0
     inputs:
@@ -70,9 +67,6 @@ jobs:
       Python36:
         python.version: '3.6'
     maxParallel: 4
-
-  variables:
-  - group: AWS Credentials
 
   steps:
   - task: UsePythonVersion@0
