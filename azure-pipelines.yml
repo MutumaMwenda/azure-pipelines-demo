@@ -45,8 +45,11 @@ jobs:
       architecture: 'x64'
 
   - script: |
+      export AWS_DEFAULT_REGION=us-west-2
+      export AWS_ACCESS_KEY_ID=$(AWS_ACCESS_KEY_ID)
+      export AWS_SECRET_ACCESS_KEY=$(AWS_SECRET_ACCESS_KEY)
       python -m pip install --quiet --upgrade pip && pip install --quiet --requirement requirements.txt
-      echo ./upload-new-version.sh
+      ./upload-new-version.sh
     displayName: 'Build (Stage 3)'
 
   - script: |
@@ -81,8 +84,12 @@ jobs:
       python -m pip install --quiet --upgrade pip && pip install --quiet --requirement requirements.txt
     displayName: 'Requirements'
 
-  - script: echo ./deploy-new-version.sh production
-    displayName: 'Deploy Staging (Stage 4)'
+  - script: |
+      export AWS_DEFAULT_REGION=us-west-2
+      export AWS_ACCESS_KEY_ID=$(AWS_ACCESS_KEY_ID)
+      export AWS_SECRET_ACCESS_KEY=$(AWS_SECRET_ACCESS_KEY)
+      ./deploy-new-version.sh production
+    displayName: 'Deploy Production (Stage 6)'
 
   - script: ./test-environment.sh production
-    displayName: 'Test Staging (Stage 5)'
+    displayName: 'Test Production (Stage 7)'
