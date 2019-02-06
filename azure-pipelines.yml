@@ -29,11 +29,6 @@ jobs:
 - job: 'Staging'
   pool:
     vmImage: 'Ubuntu-16.04'
-  strategy:
-    matrix:
-      Python36:
-        python.version: '3.6'
-    maxParallel: 4
 
   variables:
   - group: AWS Credentials
@@ -53,4 +48,27 @@ jobs:
     displayName: 'Deploy Staging (Stage 4)'
 
   - script: ./test-environment.sh staging
+    displayName: 'Test Staging (Stage 5)'
+
+- job: 'Production'
+  pool:
+    vmImage: 'Ubuntu-16.04'
+
+  variables:
+  - group: AWS Credentials
+
+  steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '$(python.version)'
+      architecture: 'x64'
+
+  - script: |
+      python -m pip install --quiet --upgrade pip && pip install --quiet --requirement requirements.txt
+    displayName: 'Requirements'
+
+  - script: echo ./deploy-new-version.sh production
+    displayName: 'Deploy Staging (Stage 4)'
+
+  - script: ./test-environment.sh production
     displayName: 'Test Staging (Stage 5)'
