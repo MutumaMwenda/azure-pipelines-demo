@@ -1,6 +1,9 @@
 trigger:
 - master
 
+variables:
+- group: AWS Credentials
+
 jobs:
 - job: 'Test'
   pool:
