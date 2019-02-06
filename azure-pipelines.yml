@@ -49,7 +49,11 @@ jobs:
       echo ./upload-new-version.sh
     displayName: 'Build (Stage 3)'
 
-  - script: echo ./deploy-new-version.sh staging
+  - script: |
+      export AWS_DEFAULT_REGION=us-west-2
+      export AWS_ACCESS_KEY_ID=$(AWS_ACCESS_KEY_ID)
+      export AWS_SECRET_ACCESS_KEY=$(AWS_SECRET_ACCESS_KEY)
+      ./deploy-new-version.sh staging
     displayName: 'Deploy Staging (Stage 4)'
 
   - script: ./test-environment.sh staging
