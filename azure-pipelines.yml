@@ -1,9 +1,6 @@
 trigger:
 - master
 
-variables:
-- group: AWS Credentials
-
 jobs:
 - job: 'Test'
   pool:
@@ -28,6 +25,7 @@ jobs:
       pylint --errors-only --disable=C0301 --disable=C0326 *.py tests/*.py
       python -m unittest --verbose --failfast
     displayName: 'Check (Stage 2)'
+
 - job: 'Staging'
   pool:
     vmImage: 'Ubuntu-16.04'
@@ -36,6 +34,9 @@ jobs:
       Python36:
         python.version: '3.6'
     maxParallel: 4
+
+  variables:
+  - group: AWS Credentials
 
   steps:
   - task: UsePythonVersion@0
