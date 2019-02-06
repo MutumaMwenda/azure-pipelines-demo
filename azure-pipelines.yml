@@ -17,7 +17,7 @@ jobs:
       versionSpec: '$(python.version)'
       architecture: 'x64'
 
-  - script: python -m pip install --upgrade pip && pip install -r requirements.txt
+  - script: python -m pip install --quiet --upgrade pip && pip install --quiet --requirement requirements.txt
     displayName: 'Requirements (Stage 1)'
 
   - script: |
@@ -45,11 +45,11 @@ jobs:
       architecture: 'x64'
 
   - script: |
-      python -m pip install --upgrade pip && pip install -r requirements.txt
-      ./upload-new-version.sh
+      python -m pip install --quiet --upgrade pip && pip install --quiet --requirement requirements.txt
+      echo ./upload-new-version.sh
     displayName: 'Build (Stage 3)'
 
-  - script: ./deploy-new-version.sh staging
+  - script: echo ./deploy-new-version.sh staging
     displayName: 'Deploy Staging (Stage 4)'
 
   - script: ./test-environment.sh staging
