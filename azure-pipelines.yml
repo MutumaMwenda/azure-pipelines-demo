@@ -2,7 +2,7 @@ trigger:
 - master
 
 jobs:
-- job: 'Testing'
+- job: 'Test'
   pool:
     vmImage: 'Ubuntu-16.04'
   strategy:
